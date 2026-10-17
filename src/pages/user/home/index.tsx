@@ -1,35 +1,22 @@
-import { useState } from "react";
-import { useAuth } from "@/components/context/use-auth";
 import { PageHeader } from "@/components/common/page-header";
 import { RecipeCollection } from "@/components/features/recipe/recipe-collection";
 import { Section } from "@/components/ui/section";
-import { Button } from "@/components/ui/button";
+import { Navbar } from "@/components/common/navbar";
 
 export default function HomePage() {
-  const { user, logout } = useAuth();
-  const [error, setError] = useState("");
-
-  async function handleLogout() {
-    try {
-      setError("");
-      await logout();
-    } catch {
-      setError("Unable to sign out. Please try again.");
-    }
-  }
-
   return (
-    <Section>
-      <PageHeader eyebrow="Your kitchen companion" title="Recipe Book" description="Keep your favorite meals in one place.">
-        <div className="flex flex-wrap items-center gap-4">
-          <span>{user?.name}</span>
-          <Button variant="secondary" onClick={handleLogout}>Sign out</Button>
-        </div>
-      </PageHeader>
+    <div className="min-h-screen bg-stone-50/50 dark:bg-[#0c0e14] transition-colors duration-300 pb-16">
+      <Navbar />
 
-      {error && <p role="alert" className="mb-6 text-rose-700">{error}</p>}
+      <Section>
+        <PageHeader
+          eyebrow="Personal Cookbook"
+          title="Savor Every Flavor"
+          description="Crafted for food lovers. Keep your culinary inspiration, signature dishes, and everyday meal ideas in one elegant space."
+        />
 
-      <RecipeCollection />
-    </Section>
+        <RecipeCollection />
+      </Section>
+    </div>
   );
 }
