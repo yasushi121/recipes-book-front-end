@@ -11,7 +11,13 @@ function getErrorMessage(error: unknown) {
     const response = (error as { response?: { data?: { message?: string } } }).response;
     if (response?.data?.message) return response.data.message;
   }
-  return "Could not connect to the API. Check that the API server is running on port 7000.";
+  if (error instanceof Error) {
+    if (error.message.includes("Network Error")) {
+      return "Network/CORS Error: The backend blocked this request or is unreachable. Ensure the backend FRONTEND_URL matches your address.";
+    }
+    return error.message;
+  }
+  return "Could not connect to the API server. Please check backend status and CORS settings.";
 }
 
 export function SignupForm() {
